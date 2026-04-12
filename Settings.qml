@@ -16,6 +16,21 @@ Item {
     property bool editShowDownload: true
     property bool editShowUpload: true
 
+    // Add-instance form state
+    property bool showAddForm: false
+    property string newName: ""
+    property string newHost: "http://localhost:8080"
+    property string newUsername: "admin"
+    property string newPassword: ""
+
+    function resetAddForm() {
+        root.showAddForm = false
+        root.newName = ""
+        root.newHost = "http://localhost:8080"
+        root.newUsername = "admin"
+        root.newPassword = ""
+    }
+
     Component.onCompleted: {
         var ri = pluginApi && pluginApi.pluginSettings && pluginApi.pluginSettings.refreshInterval
         root.editRefreshInterval = ri || 3
@@ -146,13 +161,101 @@ Item {
             }
         }
 
+        // Add Instance button (shown when form is hidden)
         NButton {
             Layout.fillWidth: true
+            visible: !root.showAddForm
             text: "+ Add Instance"
-            onClicked: {
-                var arr = root.editInstances.slice()
-                arr.push({ name: "", host: "http://localhost:8080", username: "admin", password: "" })
-                root.editInstances = arr
+            onClicked: root.showAddForm = true
+        }
+
+        // Add Instance form (shown when form is open)
+        Rectangle {
+            Layout.fillWidth: true
+            visible: root.showAddForm
+            implicitHeight: addFormCol.implicitHeight + Style.marginL * 2
+            color: Color.mSurfaceVariant
+            radius: Style.radiusL
+
+            ColumnLayout {
+                id: addFormCol
+                anchors {
+                    left: parent.left
+                    right: parent.right
+                    top: parent.top
+                    margins: Style.marginL
+                }
+                spacing: Style.marginS
+
+                NText {
+                    text: "New Instance"
+                    pointSize: Style.fontSizeM
+                    font.weight: Font.Bold
+                    color: Color.mOnSurface
+                }
+
+                NTextInput {
+                    Layout.fillWidth: true
+                    label: "Name"
+                    placeholderText: "e.g. Home, Seedbox..."
+                    text: root.newName
+                    onTextChanged: root.newName = text
+                }
+
+                NTextInput {
+                    Layout.fillWidth: true
+                    label: "Host URL"
+                    placeholderText: "http://localhost:8080"
+                    text: root.newHost
+                    onTextChanged: root.newHost = text
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: Style.marginM
+
+                    NTextInput {
+                        Layout.fillWidth: true
+                        label: "Username"
+                        text: root.newUsername
+                        onTextChanged: root.newUsername = text
+                    }
+
+                    NTextInput {
+                        Layout.fillWidth: true
+                        label: "Password"
+                        echoMode: TextInput.Password
+                        text: root.newPassword
+                        onTextChanged: root.newPassword = text
+                    }
+                }
+
+                RowLayout {
+                    Layout.fillWidth: true
+                    spacing: Style.marginM
+
+                    NButton {
+                        text: "Cancel"
+                        onClicked: root.resetAddForm()
+                    }
+
+                    NButton {
+                        text: "Add"
+                        highlighted: true
+                        onClicked: {
+                            if (!root.newHost || root.newHost.trim() === "") return
+                            var arr = root.editInstances.slice()
+                            arr.push({
+                                name:     root.newName || root.newHost,
+                                host:     root.newHost,
+                                username: root.newUsername,
+                                password: root.newPassword
+                            })
+                            root.editInstances = arr
+                            root.resetAddForm()
+                        }
+                    }
+                }
             }
         }
 
