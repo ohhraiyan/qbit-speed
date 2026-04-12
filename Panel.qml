@@ -13,7 +13,8 @@ Item {
     property real contentPreferredWidth: 500 * Style.uiScaleRatio
     property real contentPreferredHeight: 620 * Style.uiScaleRatio
 
-    anchors.fill: parent
+    width: contentPreferredWidth
+    height: contentPreferredHeight
 
     // ── State ──────────────────────────────────────────────────────────────────
     readonly property int refreshInterval: pluginApi?.pluginSettings?.refreshInterval ?? 3
