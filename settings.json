@@ -1,0 +1,13 @@
+{
+  "instances": [
+    {
+      "name": "Local",
+      "host": "http://192.168.0.123:8080",
+      "username": "admin",
+      "password": "rootadmin"
+    }
+  ],
+  "refreshInterval": 3,
+  "showDownload": true,
+  "showUpload": true
+}
