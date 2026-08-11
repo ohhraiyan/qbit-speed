@@ -1,0 +1,111 @@
+# qBittorrent WebUI live speed, shown as a Noctalia bar widget.
+# Auth uses a curl cookie jar (via noctalia.runAsync) rather than noctalia.http,
+# because the plugin http() API doesn't expose response headers/cookies.
+#
+# Connection settings (host/port/username/password/poll interval) stay
+# plugin-level [[setting]] — edited from Settings -> Plugins -> gear icon,
+# same place they already were. Display settings (colors, glyphs, unit mode,
+# show/hide) are widget-level [[widget.setting]] — edited from the widget's
+# own config panel in the bar layout editor.
+
+id = "ohhraiyan/qbit-speed"
+name = "qBittorrent Speed"
+version = "1.1.1"
+plugin_api = 3
+author = "Sumbul⚡"
+license = "MIT"
+dependencies = ["curl"]
+tags = ["network", "torrent"]
+icon = "download"
+description = "Live download/upload speed from a qBittorrent WebUI instance."
+
+[[setting]]
+key = "host"
+type = "string"
+label_key = "settings.host.label"
+description_key = "settings.host.description"
+default = "192.168.0.123"
+
+[[setting]]
+key = "port"
+type = "int"
+label_key = "settings.port.label"
+default = 8080
+min = 1
+max = 65535
+
+[[setting]]
+key = "username"
+type = "string"
+label_key = "settings.username.label"
+default = "admin"
+
+[[setting]]
+key = "password"
+type = "string"
+label_key = "settings.password.label"
+description_key = "settings.password.description"
+default = ""
+
+[[setting]]
+key = "poll_interval_ms"
+type = "int"
+label_key = "settings.poll_interval_ms.label"
+default = 2000
+min = 500
+max = 60000
+
+[[widget]]
+id = "speed"
+entry = "speed.luau"
+
+  [[widget.setting]]
+  key = "unit_mode"
+  type = "select"
+  label_key = "settings.unit_mode.label"
+  description_key = "settings.unit_mode.description"
+  default = "bytes"
+  options = [
+    { value = "bytes", label_key = "settings.unit_mode.options.bytes" },
+    { value = "bits", label_key = "settings.unit_mode.options.bits" },
+  ]
+
+  [[widget.setting]]
+  key = "show_download"
+  type = "bool"
+  label_key = "settings.show_download.label"
+  default = true
+
+  [[widget.setting]]
+  key = "download_glyph"
+  type = "glyph"
+  label_key = "settings.download_glyph.label"
+  default = "arrow-down"
+  visible_when = { key = "show_download", values = ["true"] }
+
+  [[widget.setting]]
+  key = "download_color"
+  type = "color"
+  label_key = "settings.download_color.label"
+  default = "#89b4fa"
+  visible_when = { key = "show_download", values = ["true"] }
+
+  [[widget.setting]]
+  key = "show_upload"
+  type = "bool"
+  label_key = "settings.show_upload.label"
+  default = true
+
+  [[widget.setting]]
+  key = "upload_glyph"
+  type = "glyph"
+  label_key = "settings.upload_glyph.label"
+  default = "arrow-up"
+  visible_when = { key = "show_upload", values = ["true"] }
+
+  [[widget.setting]]
+  key = "upload_color"
+  type = "color"
+  label_key = "settings.upload_color.label"
+  default = "#fab387"
+  visible_when = { key = "show_upload", values = ["true"] }

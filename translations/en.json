@@ -1,0 +1,19 @@
+{
+  "settings.host.label": "Host",
+  "settings.host.description": "qBittorrent WebUI host or IP",
+  "settings.port.label": "Port",
+  "settings.username.label": "Username",
+  "settings.password.label": "Password",
+  "settings.password.description": "Stored and displayed as plain text",
+  "settings.poll_interval_ms.label": "Poll interval (ms)",
+  "settings.unit_mode.label": "Speed unit",
+  "settings.unit_mode.description": "Bytes (MB/s) or bits (Mb/s)",
+  "settings.unit_mode.options.bytes": "MB/s (bytes)",
+  "settings.unit_mode.options.bits": "Mb/s (bits)",
+  "settings.show_download.label": "Show download speed",
+  "settings.download_glyph.label": "Download glyph",
+  "settings.download_color.label": "Download color",
+  "settings.show_upload.label": "Show upload speed",
+  "settings.upload_glyph.label": "Upload glyph",
+  "settings.upload_color.label": "Upload color"
+}
